@@ -1,0 +1,617 @@
+{
+  "generated_at": "2025-10-19T16:08:09.995158",
+  "total_sellers": 15,
+  "sellers": [
+    {
+      "seller_id": "SELL_00001",
+      "seller_name": "Global Traders Inc",
+      "seller_since": "2022-08-20T00:00:00Z",
+      "total_sales": 892,
+      "average_transaction_value": 2100.75,
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "Outstanding seller! Been buying for over a year now, never disappointed"
+        },
+        {
+          "rating": 5,
+          "comment": "Always reliable, never had a single issue with quality or delivery"
+        },
+        {
+          "rating": 5,
+          "comment": "Best in the business, premium quality products every time"
+        },
+        {
+          "rating": 5,
+          "comment": "Lightning fast responses, very professional team"
+        },
+        {
+          "rating": 5,
+          "comment": "Consistently excellent service every single time I order"
+        },
+        {
+          "rating": 4,
+          "comment": "Great seller, slight price increase recently but still worth it"
+        },
+        {
+          "rating": 5,
+          "comment": "Perfect track record, highly recommend to everyone"
+        },
+        {
+          "rating": 5,
+          "comment": "Top tier seller, sets the standard for marketplace excellence"
+        },
+        {
+          "rating": 5,
+          "comment": "Never disappoints, always exceeds expectations"
+        },
+        {
+          "rating": 5,
+          "comment": "Trusted partner for our business operations for 18 months"
+        }
+      ],
+      "dispute_rate": 0.01,
+      "on_time_rate": 0.98,
+      "avg_response_hours": 2.0,
+      "verified": true
+    },
+    {
+      "seller_id": "SELL_00002",
+      "seller_name": "Premium Logistics Co",
+      "seller_since": "2022-06-15T00:00:00Z",
+      "total_sales": 1456,
+      "average_transaction_value": 2450.3,
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "Exceptional service, premium quality completely justified by results"
+        },
+        {
+          "rating": 5,
+          "comment": "Most professional seller I've dealt with in 10 years of business"
+        },
+        {
+          "rating": 5,
+          "comment": "Perfect for high-value orders, very secure and reliable"
+        },
+        {
+          "rating": 5,
+          "comment": "Outstanding communication and real-time tracking"
+        },
+        {
+          "rating": 4,
+          "comment": "Pricey but you absolutely get what you pay for"
+        },
+        {
+          "rating": 5,
+          "comment": "Been using them for over a year, literally flawless service"
+        },
+        {
+          "rating": 5,
+          "comment": "White glove service, handles everything perfectly every time"
+        },
+        {
+          "rating": 5,
+          "comment": "Best choice for important business transactions"
+        },
+        {
+          "rating": 5,
+          "comment": "Never any surprises, always professional and transparent"
+        },
+        {
+          "rating": 5,
+          "comment": "Worth every penny for the peace of mind they provide"
+        }
+      ],
+      "dispute_rate": 0.02,
+      "on_time_rate": 0.97,
+      "avg_response_hours": 3.0,
+      "verified": true
+    },
+    {
+      "seller_id": "SELL_00003",
+      "seller_name": "MegaMart Sellers",
+      "seller_since": "2022-12-01T00:00:00Z",
+      "total_sales": 1203,
+      "average_transaction_value": 1890.6,
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "Excellent in every way, my absolute go-to supplier"
+        },
+        {
+          "rating": 5,
+          "comment": "Top tier seller with massive inventory and fast fulfillment"
+        },
+        {
+          "rating": 5,
+          "comment": "Amazing quality control and professional packaging"
+        },
+        {
+          "rating": 5,
+          "comment": "Never had a single problem in over 50 orders"
+        },
+        {
+          "rating": 4,
+          "comment": "Slightly higher prices but worth it for the reliability"
+        },
+        {
+          "rating": 5,
+          "comment": "Best customer service in the industry, hands down"
+        },
+        {
+          "rating": 5,
+          "comment": "Handles complex bulk orders with ease"
+        },
+        {
+          "rating": 5,
+          "comment": "Trusted for all our business supply needs"
+        },
+        {
+          "rating": 5,
+          "comment": "Sets the gold standard for marketplace sellers"
+        }
+      ],
+      "dispute_rate": 0.03,
+      "on_time_rate": 0.96,
+      "avg_response_hours": 4.2,
+      "verified": true
+    },
+    {
+      "seller_id": "SELL_00004",
+      "seller_name": "TechSupplies Co",
+      "seller_since": "2023-01-15T00:00:00Z",
+      "total_sales": 487,
+      "average_transaction_value": 1250.5,
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "Excellent service, fast shipping and great communication throughout"
+        },
+        {
+          "rating": 5,
+          "comment": "Great quality products, packaging was perfect and professional"
+        },
+        {
+          "rating": 4,
+          "comment": "Good seller, had slight delay once but informed me immediately"
+        },
+        {
+          "rating": 5,
+          "comment": "Best tech supplier I've worked with, highly professional"
+        },
+        {
+          "rating": 5,
+          "comment": "Always delivers on time, products exactly as described"
+        },
+        {
+          "rating": 4,
+          "comment": "Very responsive to questions and concerns"
+        },
+        {
+          "rating": 5,
+          "comment": "Smooth transaction from start to finish every time"
+        },
+        {
+          "rating": 5,
+          "comment": "Will definitely order again, trustworthy seller"
+        }
+      ],
+      "dispute_rate": 0.02,
+      "on_time_rate": 0.94,
+      "avg_response_hours": 3.5,
+      "verified": true
+    },
+    {
+      "seller_id": "SELL_00005",
+      "seller_name": "Quality First Trading",
+      "seller_since": "2023-09-10T00:00:00Z",
+      "total_sales": 523,
+      "average_transaction_value": 1680.7,
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "Lives up to the name, quality is absolutely top-notch"
+        },
+        {
+          "rating": 5,
+          "comment": "Very thorough quality checks before shipping anything"
+        },
+        {
+          "rating": 4,
+          "comment": "Slightly slower than competitors but worth the wait for quality"
+        },
+        {
+          "rating": 5,
+          "comment": "Great for quality-sensitive products and materials"
+        },
+        {
+          "rating": 5,
+          "comment": "Never received a defective item, impressive QC"
+        },
+        {
+          "rating": 4,
+          "comment": "Professional team, excellent communication"
+        },
+        {
+          "rating": 5,
+          "comment": "Reliable partner for our strict quality requirements"
+        },
+        {
+          "rating": 5,
+          "comment": "Best quality control process in the marketplace"
+        }
+      ],
+      "dispute_rate": 0.03,
+      "on_time_rate": 0.93,
+      "avg_response_hours": 4.5,
+      "verified": true
+    },
+    {
+      "seller_id": "SELL_00006",
+      "seller_name": "Elite Commerce",
+      "seller_since": "2023-05-12T00:00:00Z",
+      "total_sales": 654,
+      "average_transaction_value": 1580.3,
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "Professional service, handled our bulk order perfectly"
+        },
+        {
+          "rating": 4,
+          "comment": "Good products, minor issue was resolved very quickly"
+        },
+        {
+          "rating": 5,
+          "comment": "Highly recommend for consistent quality and service"
+        },
+        {
+          "rating": 5,
+          "comment": "Great for large orders, reliable inventory management"
+        },
+        {
+          "rating": 4,
+          "comment": "Fair pricing, good customer support team"
+        },
+        {
+          "rating": 5,
+          "comment": "Been a customer for 8 months, very satisfied overall"
+        },
+        {
+          "rating": 4,
+          "comment": "Occasional delays but always communicates well in advance"
+        }
+      ],
+      "dispute_rate": 0.05,
+      "on_time_rate": 0.89,
+      "avg_response_hours": 8.5,
+      "verified": true
+    },
+    {
+      "seller_id": "SELL_00007",
+      "seller_name": "Worldwide Goods Inc",
+      "seller_since": "2022-11-22T00:00:00Z",
+      "total_sales": 789,
+      "average_transaction_value": 1975.25,
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "Excellent international shipping capabilities and expertise"
+        },
+        {
+          "rating": 5,
+          "comment": "Handles customs and documentation perfectly every time"
+        },
+        {
+          "rating": 5,
+          "comment": "Best choice for cross-border transactions"
+        },
+        {
+          "rating": 4,
+          "comment": "Slightly higher fees but worth it for international reliability"
+        },
+        {
+          "rating": 5,
+          "comment": "Reliable tracking across multiple countries"
+        },
+        {
+          "rating": 5,
+          "comment": "Professional handling of complex international logistics"
+        },
+        {
+          "rating": 5,
+          "comment": "Never lost a shipment, very impressive record"
+        },
+        {
+          "rating": 5,
+          "comment": "Great for global supply chain needs"
+        }
+      ],
+      "dispute_rate": 0.02,
+      "on_time_rate": 0.95,
+      "avg_response_hours": 3.8,
+      "verified": true
+    },
+    {
+      "seller_id": "SELL_00008",
+      "seller_name": "Reliable Goods Ltd",
+      "seller_since": "2023-03-08T00:00:00Z",
+      "total_sales": 378,
+      "average_transaction_value": 1125.8,
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "Consistently good service over 6 months of ordering"
+        },
+        {
+          "rating": 4,
+          "comment": "Good quality products at reasonable prices"
+        },
+        {
+          "rating": 5,
+          "comment": "Very reliable for recurring monthly orders"
+        },
+        {
+          "rating": 4,
+          "comment": "Quick to resolve any issues that occasionally arise"
+        },
+        {
+          "rating": 5,
+          "comment": "Professional approach to business relationships"
+        },
+        {
+          "rating": 5,
+          "comment": "Great communication throughout the entire process"
+        },
+        {
+          "rating": 4,
+          "comment": "Would recommend to other businesses in our network"
+        }
+      ],
+      "dispute_rate": 0.04,
+      "on_time_rate": 0.91,
+      "avg_response_hours": 5.5,
+      "verified": true
+    },
+    {
+      "seller_id": "SELL_00009",
+      "seller_name": "FastTrack Shipping",
+      "seller_since": "2024-03-15T00:00:00Z",
+      "total_sales": 198,
+      "average_transaction_value": 720.5,
+      "reviews": [
+        {
+          "rating": 4,
+          "comment": "Fast as advertised, good service for urgent needs"
+        },
+        {
+          "rating": 4,
+          "comment": "Reliable for urgent orders when time matters"
+        },
+        {
+          "rating": 3,
+          "comment": "Sometimes rushes too much and misses small details"
+        },
+        {
+          "rating": 4,
+          "comment": "Great when you need something delivered quickly"
+        },
+        {
+          "rating": 5,
+          "comment": "Saved us multiple times with their fast delivery"
+        },
+        {
+          "rating": 4,
+          "comment": "Good option for time-critical situations"
+        }
+      ],
+      "dispute_rate": 0.07,
+      "on_time_rate": 0.85,
+      "avg_response_hours": 9.0,
+      "verified": true
+    },
+    {
+      "seller_id": "SELL_00010",
+      "seller_name": "Prime Suppliers",
+      "seller_since": "2023-11-03T00:00:00Z",
+      "total_sales": 234,
+      "average_transaction_value": 890.4,
+      "reviews": [
+        {
+          "rating": 4,
+          "comment": "Good seller overall, reliable most of the time"
+        },
+        {
+          "rating": 4,
+          "comment": "Fair prices and decent quality products"
+        },
+        {
+          "rating": 3,
+          "comment": "Sometimes slow but eventually gets the job done"
+        },
+        {
+          "rating": 4,
+          "comment": "Had one dispute but they resolved it fairly"
+        },
+        {
+          "rating": 5,
+          "comment": "Improved significantly over the past few months"
+        },
+        {
+          "rating": 4,
+          "comment": "Solid choice for regular standard orders"
+        }
+      ],
+      "dispute_rate": 0.08,
+      "on_time_rate": 0.83,
+      "avg_response_hours": 12.0,
+      "verified": true
+    },
+    {
+      "seller_id": "SELL_00011",
+      "seller_name": "Swift Logistics",
+      "seller_since": "2024-02-14T00:00:00Z",
+      "total_sales": 156,
+      "average_transaction_value": 675.2,
+      "reviews": [
+        {
+          "rating": 4,
+          "comment": "Pretty good service, few minor hiccups but acceptable"
+        },
+        {
+          "rating": 5,
+          "comment": "Fast delivery, product exactly as described"
+        },
+        {
+          "rating": 4,
+          "comment": "Will buy again, good experience overall"
+        },
+        {
+          "rating": 4,
+          "comment": "Responsive to messages, helpful staff members"
+        },
+        {
+          "rating": 3,
+          "comment": "One order had issues but they eventually fixed it"
+        },
+        {
+          "rating": 5,
+          "comment": "Great for time-sensitive orders"
+        }
+      ],
+      "dispute_rate": 0.06,
+      "on_time_rate": 0.88,
+      "avg_response_hours": 6.5,
+      "verified": false
+    },
+    {
+      "seller_id": "SELL_00012",
+      "seller_name": "Express Traders",
+      "seller_since": "2024-01-20T00:00:00Z",
+      "total_sales": 145,
+      "average_transaction_value": 580.9,
+      "reviews": [
+        {
+          "rating": 4,
+          "comment": "Decent seller, has room for improvement"
+        },
+        {
+          "rating": 3,
+          "comment": "Had some delays but product quality was good"
+        },
+        {
+          "rating": 4,
+          "comment": "Fair pricing, acceptable service level"
+        },
+        {
+          "rating": 3,
+          "comment": "Response time could definitely be faster"
+        },
+        {
+          "rating": 4,
+          "comment": "Overall positive experience, will order again"
+        }
+      ],
+      "dispute_rate": 0.09,
+      "on_time_rate": 0.79,
+      "avg_response_hours": 14.0,
+      "verified": true
+    },
+    {
+      "seller_id": "SELL_00013",
+      "seller_name": "FastShip Logistics",
+      "seller_since": "2024-06-10T00:00:00Z",
+      "total_sales": 89,
+      "average_transaction_value": 450.25,
+      "reviews": [
+        {
+          "rating": 3,
+          "comment": "Okay service, could definitely be better"
+        },
+        {
+          "rating": 4,
+          "comment": "Decent quality but shipping was quite slow"
+        },
+        {
+          "rating": 2,
+          "comment": "Delayed shipment by a week with no communication"
+        },
+        {
+          "rating": 3,
+          "comment": "Product arrived but packaging was damaged"
+        },
+        {
+          "rating": 4,
+          "comment": "Eventually resolved issues but took considerable time"
+        }
+      ],
+      "dispute_rate": 0.12,
+      "on_time_rate": 0.76,
+      "avg_response_hours": 18.0,
+      "verified": false
+    },
+    {
+      "seller_id": "SELL_00014",
+      "seller_name": "Budget Suppliers",
+      "seller_since": "2024-07-01T00:00:00Z",
+      "total_sales": 67,
+      "average_transaction_value": 285.4,
+      "reviews": [
+        {
+          "rating": 3,
+          "comment": "You get what you pay for, budget option"
+        },
+        {
+          "rating": 2,
+          "comment": "Multiple delays and poor communication"
+        },
+        {
+          "rating": 3,
+          "comment": "Products are okay but service is lacking"
+        },
+        {
+          "rating": 2,
+          "comment": "Had to chase for updates constantly"
+        },
+        {
+          "rating": 3,
+          "comment": "Cheap prices but risky for important orders"
+        }
+      ],
+      "dispute_rate": 0.18,
+      "on_time_rate": 0.68,
+      "avg_response_hours": 28.0,
+      "verified": false
+    },
+    {
+      "seller_id": "SELL_00015",
+      "seller_name": "QuickDeliver Express",
+      "seller_since": "2024-09-01T00:00:00Z",
+      "total_sales": 23,
+      "average_transaction_value": 320.0,
+      "reviews": [
+        {
+          "rating": 3,
+          "comment": "Average experience, nothing particularly special"
+        },
+        {
+          "rating": 2,
+          "comment": "Poor communication, took days to respond to inquiries"
+        },
+        {
+          "rating": 3,
+          "comment": "Takes too long to process and ship orders"
+        },
+        {
+          "rating": 2,
+          "comment": "Had to follow up multiple times for status updates"
+        }
+      ],
+      "dispute_rate": 0.25,
+      "on_time_rate": 0.65,
+      "avg_response_hours": 36.0,
+      "verified": false
+    }
+  ]
+}
