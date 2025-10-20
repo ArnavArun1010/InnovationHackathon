@@ -48,6 +48,21 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .csv-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
         .upload-area {
             border: 3px dashed #667eea;
             border-radius: 10px;
@@ -86,7 +101,6 @@
             font-size: 1em;
             cursor: pointer;
             transition: transform 0.2s;
-            margin-top: 15px;
         }
 
         .btn:hover {
@@ -98,6 +112,11 @@
             opacity: 0.5;
             cursor: not-allowed;
         }
+
+        .btn-success { background: #28a745; }
+        .btn-info { background: #17a2b8; }
+        .btn-danger { background: #dc3545; }
+        .btn-warning { background: #ffc107; color: #333; }
 
         .loading {
             display: none;
@@ -164,8 +183,6 @@
             padding: 25px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: transform 0.2s;
-            position: relative;
-            overflow: hidden;
         }
 
         .seller-card:hover {
@@ -356,23 +373,44 @@
             .details-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .button-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .csv-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 AssureX</h1>
+            <h1>🚀 Logistics Rating System</h1>
             <p>AI-Powered Seller Credibility Analysis</p>
         </div>
 
         <div class="upload-section">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div class="button-row">
                 <h2 style="color: #333; margin: 0;">Upload Seller Data</h2>
-                <button class="btn" onclick="downloadSampleCSV()" style="margin: 0; background: #28a745;">
-                    📥 Download Sample CSV
-                </button>
+                <div class="csv-buttons">
+                    <button class="btn btn-success" onclick="downloadSampleCSV('comprehensive')">
+                        📥 Comprehensive
+                    </button>
+                    <button class="btn btn-info" onclick="downloadSampleCSV('top_performers')">
+                        ⭐ Top Performers
+                    </button>
+                    <button class="btn btn-danger" onclick="downloadSampleCSV('risky_sellers')">
+                        ⚠️ Risky Sellers
+                    </button>
+                    <button class="btn btn-warning" onclick="downloadSampleCSV('mixed')">
+                        🔀 Mixed (20)
+                    </button>
+                </div>
             </div>
+            
             <div class="upload-area" id="uploadArea">
                 <div class="upload-icon">📁</div>
                 <h3>Drag & Drop CSV File Here</h3>
@@ -382,7 +420,7 @@
                     Browse Files
                 </button>
                 <p style="color: #999; margin-top: 15px; font-size: 0.9em;">
-                    CSV should include: seller_id, seller_name, seller_since, total_sales, average_transaction_value, reviews, etc.
+                    CSV should include: seller_id, seller_name, seller_since, total_sales, reviews, etc.
                 </p>
             </div>
             <button class="btn" id="analyzeBtn" onclick="analyzeSellers()" disabled style="margin-top: 20px;">
@@ -407,13 +445,11 @@
         let sellersData = [];
         const API_URL = 'http://localhost:5000';
 
-        // File upload handling
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
         const analyzeBtn = document.getElementById('analyzeBtn');
         const errorMessage = document.getElementById('errorMessage');
 
-        // Drag and drop
         uploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
             uploadArea.classList.add('dragover');
@@ -465,7 +501,6 @@
 
         function processCSVData(data) {
             return data.map(row => {
-                // Parse reviews if they exist as JSON string
                 let reviews = [];
                 if (row.reviews) {
                     try {
@@ -502,7 +537,6 @@
             try {
                 const results = [];
                 
-                // Analyze each seller
                 for (const seller of sellersData) {
                     const response = await fetch(`${API_URL}/seller/credibility`, {
                         method: 'POST',
@@ -520,12 +554,11 @@
                             ...data
                         });
                     } else {
-                        // Use fallback if API fails
                         results.push({
                             seller_name: seller.seller_name,
                             seller_id: seller.seller_id,
                             credibility: generateFallbackScore(seller),
-                            stamp: getStampForScore(50)
+                            stamp: getStampForScore(generateFallbackScore(seller).credibility_score)
                         });
                     }
                 }
@@ -543,19 +576,14 @@
         function generateFallbackScore(seller) {
             let score = 50;
             
-            // Sales volume (0-20 points)
             if (seller.total_sales > 1000) score += 20;
             else if (seller.total_sales > 500) score += 15;
             else if (seller.total_sales > 200) score += 10;
             else if (seller.total_sales > 50) score += 5;
             
-            // On-time rate (0-25 points)
             score += (seller.on_time_rate - 0.5) * 50;
-            
-            // Dispute rate penalty
             score -= seller.dispute_rate * 100;
             
-            // Average rating
             const reviews = seller.reviews || [];
             let avgRating = 0;
             if (reviews.length > 0) {
@@ -563,12 +591,10 @@
                 score += (avgRating - 3) * 7.5;
             }
             
-            // Verification bonus
             if (seller.verified) score += 5;
             
             score = Math.max(0, Math.min(100, Math.round(score)));
             
-            // Build specific strengths
             const strengths = [];
             if (seller.total_sales > 500) {
                 strengths.push(`High sales volume with ${seller.total_sales} completed transactions`);
@@ -594,7 +620,6 @@
                 strengths.push('Identity verified for added security');
             }
             
-            // Build specific concerns
             const concerns = [];
             if (seller.dispute_rate > 0.10) {
                 concerns.push(`High dispute rate of ${(seller.dispute_rate * 100).toFixed(1)}% requires attention`);
@@ -635,11 +660,13 @@
 
         function getStampForScore(score) {
             if (score >= 86) {
-                return { stamp: 'VERIFIED_EXCELLENT', color: 'green', message: 'Highly Trusted Seller', badge: '✓✓✓' };
+                return { stamp: 'EXCELLENT', color: 'green', message: 'Highly Trusted Seller', badge: '✓✓✓' };
+            } else if (score >= 75) {
+                return { stamp: 'APPROVED', color: 'green', message: 'Trusted Seller', badge: '✓✓' };
             } else if (score >= 61) {
-                return { stamp: 'APPROVED', color: 'blue', message: 'Reliable Seller', badge: '✓✓' };
-            } else if (score >= 31) {
-                return { stamp: 'CAUTION', color: 'yellow', message: 'Proceed with Caution', badge: '⚠' };
+                return { stamp: 'GOOD', color: 'blue', message: 'Reliable Seller', badge: '✓' };
+            } else if (score >= 45) {
+                return { stamp: 'REVIEW', color: 'yellow', message: 'Needs Review', badge: '?' };
             } else {
                 return { stamp: 'HIGH_RISK', color: 'red', message: 'Not Recommended', badge: '✗' };
             }
@@ -649,13 +676,11 @@
             const summaryCards = document.getElementById('summaryCards');
             const sellersGrid = document.getElementById('sellersGrid');
 
-            // Calculate summary stats
             const totalSellers = results.length;
             const avgScore = results.reduce((sum, r) => sum + r.credibility.credibility_score, 0) / totalSellers;
             const approvedCount = results.filter(r => r.credibility.recommendation === 'approve').length;
             const highRiskCount = results.filter(r => r.credibility.risk_level === 'high').length;
 
-            // Display summary
             summaryCards.innerHTML = `
                 <div class="summary-card">
                     <h3>Total Sellers</h3>
@@ -675,7 +700,6 @@
                 </div>
             `;
 
-            // Display seller cards
             sellersGrid.innerHTML = results.map(result => {
                 const cred = result.credibility;
                 const stamp = result.stamp;
@@ -750,37 +774,79 @@
             errorMessage.style.display = 'block';
         }
 
-        function downloadSampleCSV() {
-            // Comprehensive CSV data with rich seller profiles
-            const csvContent = `seller_id,seller_name,seller_since,total_sales,average_transaction_value,dispute_rate,on_time_rate,avg_response_hours,verified,reviews
-SELL_001,TechSupplies Co,2023-01-15T00:00:00Z,487,1250.50,0.02,0.94,3.5,true,"[{""rating"":5,""comment"":""Excellent service, fast shipping and great communication!""},{""rating"":5,""comment"":""Great quality products, packaging was perfect""},{""rating"":4,""comment"":""Good seller, slight delay but informed me immediately""},{""rating"":5,""comment"":""Best supplier I've worked with, highly professional""},{""rating"":5,""comment"":""Always delivers on time, products as described""},{""rating"":4,""comment"":""Very responsive to questions and concerns""},{""rating"":5,""comment"":""Smooth transaction from start to finish""},{""rating"":5,""comment"":""Will definitely order again, trustworthy seller""}]"
-SELL_002,FastShip Logistics,2024-06-10T00:00:00Z,89,450.25,0.12,0.76,18,false,"[{""rating"":3,""comment"":""Okay service, could be better""},{""rating"":4,""comment"":""Decent quality but shipping was slow""},{""rating"":2,""comment"":""Delayed shipment by a week, no communication""},{""rating"":3,""comment"":""Product arrived but packaging was damaged""},{""rating"":4,""comment"":""Eventually resolved issues but took time""}]"
-SELL_003,Global Traders Inc,2022-08-20T00:00:00Z,892,2100.75,0.01,0.98,2.0,true,"[{""rating"":5,""comment"":""Outstanding seller! Been buying for over a year now""},{""rating"":5,""comment"":""Always reliable, never had a single issue""},{""rating"":5,""comment"":""Best in the business, premium quality products""},{""rating"":5,""comment"":""Lightning fast responses, very professional team""},{""rating"":5,""comment"":""Consistently excellent service every single time""},{""rating"":4,""comment"":""Great seller, slight price increase but worth it""},{""rating"":5,""comment"":""Perfect track record, highly recommend to everyone""},{""rating"":5,""comment"":""Top tier seller, sets the standard for others""},{""rating"":5,""comment"":""Never disappoints, always exceeds expectations""},{""rating"":5,""comment"":""Trusted partner for our business operations""}]"
-SELL_004,QuickDeliver Express,2024-09-01T00:00:00Z,23,320.00,0.25,0.65,36,false,"[{""rating"":3,""comment"":""Average experience, nothing special""},{""rating"":2,""comment"":""Poor communication, took days to respond""},{""rating"":3,""comment"":""Takes too long to process orders""},{""rating"":2,""comment"":""Had to follow up multiple times for updates""}]"
-SELL_005,Elite Commerce,2023-05-12T00:00:00Z,654,1580.30,0.05,0.89,8.5,true,"[{""rating"":5,""comment"":""Professional service, handled bulk order perfectly""},{""rating"":4,""comment"":""Good products, minor issue resolved quickly""},{""rating"":5,""comment"":""Highly recommend for consistent quality""},{""rating"":5,""comment"":""Great for large orders, reliable inventory""},{""rating"":4,""comment"":""Fair pricing, good customer support""},{""rating"":5,""comment"":""Been a customer for 8 months, very satisfied""},{""rating"":4,""comment"":""Occasional delays but always communicates well""}]"
-SELL_006,Prime Suppliers,2023-11-03T00:00:00Z,234,890.40,0.08,0.83,12,true,"[{""rating"":4,""comment"":""Good seller overall, reliable most of the time""},{""rating"":4,""comment"":""Fair prices and decent quality products""},{""rating"":3,""comment"":""Sometimes slow but gets the job done""},{""rating"":4,""comment"":""Had one dispute but resolved it fairly""},{""rating"":5,""comment"":""Improved significantly over past few months""},{""rating"":4,""comment"":""Solid choice for regular orders""}]"
-SELL_007,Swift Logistics,2024-02-14T00:00:00Z,156,675.20,0.06,0.88,6.5,false,"[{""rating"":4,""comment"":""Pretty good service, few hiccups but acceptable""},{""rating"":5,""comment"":""Fast delivery, product exactly as described""},{""rating"":4,""comment"":""Will buy again, good experience overall""},{""rating"":4,""comment"":""Responsive to messages, helpful staff""},{""rating"":3,""comment"":""One order had issues but they fixed it""},{""rating"":5,""comment"":""Great for time-sensitive orders""}]"
-SELL_008,MegaMart Sellers,2022-12-01T00:00:00Z,1203,1890.60,0.03,0.96,4.2,true,"[{""rating"":5,""comment"":""Excellent in every way, my go-to supplier""},{""rating"":5,""comment"":""Top tier seller with massive inventory""},{""rating"":5,""comment"":""Amazing quality control and packaging""},{""rating"":5,""comment"":""Never had a single problem in 50+ orders""},{""rating"":4,""comment"":""Slightly higher prices but worth the reliability""},{""rating"":5,""comment"":""Best customer service in the industry""},{""rating"":5,""comment"":""Handles complex orders with ease""},{""rating"":5,""comment"":""Trusted for all our business needs""},{""rating"":5,""comment"":""Sets the gold standard for marketplace sellers""}]"
-SELL_009,Reliable Goods Ltd,2023-03-08T00:00:00Z,378,1125.80,0.04,0.91,5.5,true,"[{""rating"":5,""comment"":""Consistently good service over 6 months""},{""rating"":4,""comment"":""Good quality, reasonable prices""},{""rating"":5,""comment"":""Very reliable for recurring orders""},{""rating"":4,""comment"":""Quick to resolve any issues that arise""},{""rating"":5,""comment"":""Professional approach to business""},{""rating"":5,""comment"":""Great communication throughout process""},{""rating"":4,""comment"":""Would recommend to other businesses""}]"
-SELL_010,Express Traders,2024-01-20T00:00:00Z,145,580.90,0.09,0.79,14,true,"[{""rating"":4,""comment"":""Decent seller, room for improvement""},{""rating"":3,""comment"":""Had some delays but product quality was good""},{""rating"":4,""comment"":""Fair pricing, acceptable service level""},{""rating"":3,""comment"":""Response time could be faster""},{""rating"":4,""comment"":""Overall positive experience, will order again""}]"
-SELL_011,Premium Logistics Co,2022-06-15T00:00:00Z,1456,2450.30,0.02,0.97,3.0,true,"[{""rating"":5,""comment"":""Exceptional service, premium quality justified""},{""rating"":5,""comment"":""Most professional seller I've dealt with""},{""rating"":5,""comment"":""Perfect for high-value orders, very secure""},{""rating"":5,""comment"":""Outstanding communication and tracking""},{""rating"":4,""comment"":""Pricey but you get what you pay for""},{""rating"":5,""comment"":""Been using them for over a year, flawless""},{""rating"":5,""comment"":""White glove service, handles everything perfectly""},{""rating"":5,""comment"":""Best for important business transactions""},{""rating"":5,""comment"":""Never any surprises, always professional""},{""rating"":5,""comment"":""Worth every penny for peace of mind""}]"
-SELL_012,Budget Suppliers,2024-07-01T00:00:00Z,67,285.40,0.18,0.68,28,false,"[{""rating"":3,""comment"":""You get what you pay for, budget option""},{""rating"":2,""comment"":""Multiple delays, poor communication""},{""rating"":3,""comment"":""Products okay but service lacking""},{""rating"":2,""comment"":""Had to chase for updates constantly""},{""rating"":3,""comment"":""Cheap prices but risky for important orders""}]"
-SELL_013,Quality First Trading,2023-09-10T00:00:00Z,523,1680.70,0.03,0.93,4.5,true,"[{""rating"":5,""comment"":""Lives up to the name, quality is top-notch""},{""rating"":5,""comment"":""Very thorough quality checks before shipping""},{""rating"":4,""comment"":""Slightly slower than competitors but worth the wait""},{""rating"":5,""comment"":""Great for quality-sensitive products""},{""rating"":5,""comment"":""Never received a defective item""},{""rating"":4,""comment"":""Professional team, good communication""},{""rating"":5,""comment"":""Reliable partner for our quality requirements""},{""rating"":5,""comment"":""Best quality control in the marketplace""}]"
-SELL_014,FastTrack Shipping,2024-03-15T00:00:00Z,198,720.50,0.07,0.85,9.0,true,"[{""rating"":4,""comment"":""Fast as advertised, good service""},{""rating"":4,""comment"":""Reliable for urgent orders""},{""rating"":3,""comment"":""Sometimes rushes and misses details""},{""rating"":4,""comment"":""Great when you need something quickly""},{""rating"":5,""comment"":""Saved us multiple times with fast delivery""},{""rating"":4,""comment"":""Good for time-critical situations""}]"
-SELL_015,Worldwide Goods Inc,2022-11-22T00:00:00Z,789,1975.25,0.02,0.95,3.8,true,"[{""rating"":5,""comment"":""Excellent international shipping capabilities""},{""rating"":5,""comment"":""Handles customs and documentation perfectly""},{""rating"":5,""comment"":""Best for cross-border transactions""},{""rating"":4,""comment"":""Slightly higher fees but worth it for international""},{""rating"":5,""comment"":""Reliable tracking across multiple countries""},{""rating"":5,""comment"":""Professional handling of complex logistics""},{""rating"":5,""comment"":""Never lost a shipment, impressive record""},{""rating"":5,""comment"":""Great for global supply chain needs""}]"`;
-
-            // Create blob and download
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        function downloadSampleCSV(type) {
+            const csvData = getCSVData(type);
+            const blob = new Blob([csvData.content], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);
             
             link.setAttribute('href', url);
-            link.setAttribute('download', 'sellers_comprehensive.csv');
+            link.setAttribute('download', csvData.filename);
             link.style.visibility = 'hidden';
             
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        function getCSVData(type) {
+            const header = `seller_id,seller_name,seller_since,total_sales,average_transaction_value,dispute_rate,on_time_rate,avg_response_hours,verified,reviews\n`;
+            
+            const datasets = {
+                comprehensive: `SELL_001,TechSupplies Co,2023-01-15T00:00:00Z,487,1250.50,0.02,0.94,3.5,true,"[{""rating"":5,""comment"":""Excellent service""}]"
+SELL_002,Global Traders Inc,2022-08-20T00:00:00Z,892,2100.75,0.01,0.98,2.0,true,"[{""rating"":5,""comment"":""Outstanding seller""}]"
+SELL_003,MegaMart Sellers,2022-12-01T00:00:00Z,1203,1890.60,0.03,0.96,4.2,true,"[{""rating"":5,""comment"":""Excellent in every way""}]"
+SELL_004,Elite Commerce,2023-05-12T00:00:00Z,654,1580.30,0.05,0.89,8.5,true,"[{""rating"":5,""comment"":""Professional service""}]"
+SELL_005,Prime Suppliers,2023-11-03T00:00:00Z,234,890.40,0.08,0.83,12,true,"[{""rating"":4,""comment"":""Good seller overall""}]"
+SELL_006,Swift Logistics,2024-02-14T00:00:00Z,156,675.20,0.06,0.88,6.5,false,"[{""rating"":4,""comment"":""Pretty good service""}]"
+SELL_007,Express Traders,2024-01-20T00:00:00Z,145,580.90,0.09,0.79,14,true,"[{""rating"":4,""comment"":""Decent seller""}]"
+SELL_008,FastShip Logistics,2024-06-10T00:00:00Z,89,450.25,0.12,0.76,18,false,"[{""rating"":3,""comment"":""Okay service""}]"
+SELL_009,Budget Suppliers,2024-07-01T00:00:00Z,67,285.40,0.18,0.68,28,false,"[{""rating"":3,""comment"":""You get what you pay for""}]"
+SELL_010,QuickDeliver Express,2024-09-01T00:00:00Z,23,320.00,0.25,0.65,36,false,"[{""rating"":3,""comment"":""Average experience""}]"`,
+                
+                top_performers: `SELL_TOP_001,Diamond Logistics,2021-05-10T00:00:00Z,2456,3250.75,0.005,0.99,1.5,true,"[{""rating"":5,""comment"":""Absolutely flawless""}]"
+SELL_TOP_002,Platinum Supply Chain,2021-09-15T00:00:00Z,1892,2890.40,0.01,0.98,2.0,true,"[{""rating"":5,""comment"":""Top-tier professional""}]"
+SELL_TOP_003,Elite Global Traders,2022-01-20T00:00:00Z,1567,2675.90,0.01,0.97,2.5,true,"[{""rating"":5,""comment"":""Exceptional service""}]"
+SELL_TOP_004,Supreme Logistics Inc,2021-11-08T00:00:00Z,2134,3120.25,0.01,0.98,1.8,true,"[{""rating"":5,""comment"":""Outstanding from day one""}]"
+SELL_TOP_005,ProShip Masters,2022-03-12T00:00:00Z,1423,2345.60,0.02,0.96,3.0,true,"[{""rating"":5,""comment"":""Excellent service""}]"
+SELL_TOP_006,Premier Cargo Solutions,2021-07-25T00:00:00Z,1789,2567.30,0.01,0.97,2.2,true,"[{""rating"":5,""comment"":""Best cargo handler""}]"
+SELL_TOP_007,VIP Supply Network,2022-05-18T00:00:00Z,1298,2234.80,0.02,0.96,3.5,true,"[{""rating"":5,""comment"":""Excellent logistics partner""}]"
+SELL_TOP_008,Apex Shipping Group,2021-12-03T00:00:00Z,1645,2456.70,0.01,0.98,2.0,true,"[{""rating"":5,""comment"":""Outstanding service quality""}]"`,
+                
+                risky_sellers: `SELL_RISK_001,SlowShip Co,2024-08-15T00:00:00Z,34,245.30,0.28,0.58,48,false,"[{""rating"":2,""comment"":""Very slow shipping""}]"
+SELL_RISK_002,Unreliable Goods,2024-09-20T00:00:00Z,18,189.50,0.35,0.52,72,false,"[{""rating"":2,""comment"":""Terrible service""}]"
+SELL_RISK_003,Budget Basement,2024-07-10T00:00:00Z,56,198.75,0.22,0.64,56,false,"[{""rating"":2,""comment"":""Cheap for a reason""}]"
+SELL_RISK_004,LastMinute Logistics,2024-10-01T00:00:00Z,12,167.20,0.40,0.48,96,false,"[{""rating"":1,""comment"":""Absolutely terrible""}]"
+SELL_RISK_005,Discount Dealers,2024-06-25T00:00:00Z,78,234.90,0.19,0.67,42,false,"[{""rating"":3,""comment"":""Hit or miss""}]"
+SELL_RISK_006,Sketchy Supplies,2024-09-05T00:00:00Z,29,156.40,0.31,0.55,84,false,"[{""rating"":2,""comment"":""Very unprofessional""}]"
+SELL_RISK_007,Questionable Traders,2024-08-01T00:00:00Z,45,178.60,0.25,0.61,68,false,"[{""rating"":2,""comment"":""Many red flags""}]"`,
+                
+                mixed: `SELL_MIX_001,Stellar Logistics,2021-06-15T00:00:00Z,2345,2890.50,0.01,0.98,2.0,true,"[{""rating"":5,""comment"":""Exceptional service""}]"
+SELL_MIX_002,Average Joe Shipping,2023-04-20T00:00:00Z,245,567.30,0.09,0.82,15,true,"[{""rating"":4,""comment"":""Decent service""}]"
+SELL_MIX_003,Risk Runner Co,2024-08-10T00:00:00Z,42,198.90,0.24,0.63,52,false,"[{""rating"":2,""comment"":""Poor service""}]"
+SELL_MIX_004,Premium Partners,2022-02-12T00:00:00Z,1567,2234.75,0.02,0.96,3.0,true,"[{""rating"":5,""comment"":""Excellent quality""}]"
+SELL_MIX_005,Budget Express,2024-05-18T00:00:00Z,89,289.40,0.15,0.72,28,false,"[{""rating"":3,""comment"":""Cheap but risky""}]"
+SELL_MIX_006,Solid Suppliers,2023-01-08T00:00:00Z,456,1123.60,0.05,0.88,7.0,true,"[{""rating"":4,""comment"":""Good overall""}]"
+SELL_MIX_007,NewBie Logistics,2024-09-22T00:00:00Z,15,234.20,0.20,0.68,45,false,"[{""rating"":3,""comment"":""New seller""}]"
+SELL_MIX_008,Elite Commerce Pro,2021-11-30T00:00:00Z,1892,2567.80,0.01,0.97,2.5,true,"[{""rating"":5,""comment"":""Outstanding service""}]"
+SELL_MIX_009,MidTier Trading,2023-07-14T00:00:00Z,312,789.50,0.07,0.84,12,true,"[{""rating"":4,""comment"":""Good service""}]"
+SELL_MIX_010,Problematic Shipping,2024-07-05T00:00:00Z,67,212.30,0.22,0.65,48,false,"[{""rating"":2,""comment"":""Many problems""}]"
+SELL_MIX_011,Quality Masters,2022-05-20T00:00:00Z,1234,2123.90,0.02,0.95,3.5,true,"[{""rating"":5,""comment"":""Excellent quality control""}]"
+SELL_MIX_012,Discount Hub,2024-06-12T00:00:00Z,98,267.80,0.16,0.71,35,false,"[{""rating"":3,""comment"":""Budget option""}]"
+SELL_MIX_013,Reliable Routes,2023-03-25T00:00:00Z,567,1456.70,0.04,0.91,6.0,true,"[{""rating"":5,""comment"":""Consistently good""}]"
+SELL_MIX_014,Startup Shippers,2024-08-30T00:00:00Z,28,198.50,0.18,0.69,40,false,"[{""rating"":3,""comment"":""Growing pains""}]"
+SELL_MIX_015,Premier Supply Chain,2021-09-10T00:00:00Z,2089,2789.40,0.01,0.98,2.0,true,"[{""rating"":5,""comment"":""Industry leading""}]"
+SELL_MIX_016,Standard Goods Co,2023-06-08T00:00:00Z,389,923.60,0.06,0.86,10,true,"[{""rating"":4,""comment"":""Good service""}]"
+SELL_MIX_017,Risky Business Ltd,2024-07-20T00:00:00Z,52,223.40,0.21,0.66,44,false,"[{""rating"":2,""comment"":""Too many issues""}]"
+SELL_MIX_018,Excellence Logistics,2022-08-15T00:00:00Z,1456,2345.80,0.02,0.96,3.0,true,"[{""rating"":5,""comment"":""Outstanding""}]"
+SELL_MIX_019,Mediocre Movers,2023-11-12T00:00:00Z,178,534.20,0.11,0.78,18,true,"[{""rating"":3,""comment"":""Just okay""}]"
+SELL_MIX_020,LastPlace Shipping,2024-09-15T00:00:00Z,21,167.90,0.29,0.59,62,false,"[{""rating"":2,""comment"":""Poor service""}]"`
+            };
+            
+            return {
+                content: header + datasets[type],
+                filename: `sellers_${type}.csv`
+            };
         }
     </script>
 </body>
